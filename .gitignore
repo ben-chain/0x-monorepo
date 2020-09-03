@@ -168,7 +168,7 @@ contracts/dev-utils/test/generated-wrappers/
 python-packages/contract_wrappers/src/zero_ex/contract_wrappers/*/__init__.py
 
 # solc-bin in sol-compiler
-packages/sol-compiler/solc_bin/
+# packages/sol-compiler/solc_bin/ # commented out to share bin
 
 # python stuff
 .eggs
