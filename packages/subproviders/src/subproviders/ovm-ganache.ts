@@ -12,16 +12,16 @@ import { Subprovider } from './subprovider';
  * This class implements the [web3-provider-engine](https://github.com/MetaMask/provider-engine) subprovider interface.
  * It intercepts all JSON RPC requests and relays them to an in-process ganache instance.
  */
-export class GanacheSubprovider extends Subprovider {
+export class OVMGanacheSubprovider extends Subprovider {
     private readonly _ganacheProvider: GanacheProvider;
     /**
-     * Instantiates a GanacheSubprovider
+     * Instantiates an OVMGanacheSubprovider
      * @param opts The desired opts with which to instantiate the Ganache provider
      */
     constructor(opts: Ganache.GanacheOpts) {
         super();
-        console.log(`using vanilla ganache. not OVM`)
-        this._ganacheProvider = Ganache.provider(opts)
+        console.log(`using ovm toolchain ganache`)
+        this._ganacheProvider = toolchain.ganache.provider(opts);
     }
     /**
      * This method conforms to the web3-provider-engine interface.

@@ -23,6 +23,7 @@ export { RedundantSubprovider } from './subproviders/redundant_subprovider';
 export { LedgerSubprovider } from './subproviders/ledger';
 export { RPCSubprovider } from './subproviders/rpc_subprovider';
 export { GanacheSubprovider } from './subproviders/ganache';
+export { OVMGanacheSubprovider } from './subproviders/ovm-ganache';
 export { Subprovider } from './subproviders/subprovider';
 export {
     DebugPayloadRawTransactionAttributes,
