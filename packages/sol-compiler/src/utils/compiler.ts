@@ -335,26 +335,31 @@ function recursivelyGatherDependencySources(
  * @param isOfflineMode Offline mode flag
  */
 export async function getSolcJSAsync(solcVersion: string, isOfflineMode: boolean): Promise<solc.SolcInstance> {
+
+
+     
+
     const solcJSReleases = await getSolcJSReleasesAsync(isOfflineMode);
-    const fullSolcVersion = solcJSReleases[solcVersion];
+    let fullSolcVersion = solcJSReleases[solcVersion];
+
     if (fullSolcVersion === undefined) {
         throw new Error(`${solcVersion} is not a known compiler version`);
     }
     const compilerBinFilename = path.join(constants.SOLC_BIN_DIR, fullSolcVersion);
     let solcjs: string;
+    console.log(`solcjs path is ${compilerBinFilename}`)
     if (await fsWrapper.doesFileExistAsync(compilerBinFilename)) {
         solcjs = (await fsWrapper.readFileAsync(compilerBinFilename)).toString();
     } else {
-        throw new Error('Unsupported OVM compiler version')
-        // logUtils.warn(`Downloading ${fullSolcVersion}...`);
-        // const url = `${constants.BASE_COMPILER_URL}${fullSolcVersion}`;
-        // const response = await fetchAsync(url);
-        // const SUCCESS_STATUS = 200;
-        // if (response.status !== SUCCESS_STATUS) {
-        //     throw new Error(`Failed to load ${fullSolcVersion}`);
-        // }
-        // solcjs = await response.text();
-        // await fsWrapper.writeFileAsync(compilerBinFilename, solcjs);
+        logUtils.warn(`Downloading ${fullSolcVersion}...`);
+        const url = `${constants.BASE_COMPILER_URL}${fullSolcVersion}`;
+        const response = await fetchAsync(url);
+        const SUCCESS_STATUS = 200;
+        if (response.status !== SUCCESS_STATUS) {
+            throw new Error(`Failed to load ${fullSolcVersion}`);
+        }
+        solcjs = await response.text();
+        await fsWrapper.writeFileAsync(compilerBinFilename, solcjs);
     }
     if (solcjs.length === 0) {
         throw new Error('No compiler available');

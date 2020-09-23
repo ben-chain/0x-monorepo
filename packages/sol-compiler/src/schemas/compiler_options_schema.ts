@@ -3,7 +3,7 @@ export const compilerOptionsSchema = {
     properties: {
         contractsDir: { type: 'string' },
         artifactsDir: { type: 'string' },
-        solcVersion: { type: 'string', pattern: '^\\d+.\\d+.\\d+$' },
+        solcVersion: { type: 'string', pattern: '^\\d+.\\d+.\\d+($|_ovm$)' },
         compilerSettings: { type: 'object' },
         contracts: {
             oneOf: [
