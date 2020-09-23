@@ -33,6 +33,8 @@ import { assert } from '@0x/assert';
 import * as ethers from 'ethers';
 // tslint:enable:no-unused-variable
 
+
+
 /* istanbul ignore next */
 // tslint:disable:array-type
 // tslint:disable:no-parameter-reassignment
@@ -41,14 +43,14 @@ export class LibDummyContract extends BaseContract {
     /**
      * @ignore
      */
-    public static deployedBytecode: string | undefined;
-    public static contractName = 'LibDummy';
+public static deployedBytecode: string | undefined;
+public static contractName = 'LibDummy';
     private readonly _methodABIIndex: { [name: string]: number } = {};
-    public static async deployFrom0xArtifactAsync(
+public static async deployFrom0xArtifactAsync(
         artifact: ContractArtifact | SimpleContractArtifact,
         supportedProvider: SupportedProvider,
         txDefaults: Partial<TxData>,
-        logDecodeDependencies: { [contractName: string]: ContractArtifact | SimpleContractArtifact },
+        logDecodeDependencies: { [contractName: string]: (ContractArtifact | SimpleContractArtifact) },
     ): Promise<LibDummyContract> {
         assert.doesConformToSchema('txDefaults', txDefaults, schemas.txDataSchema, [
             schemas.addressSchema,
@@ -67,7 +69,7 @@ export class LibDummyContract extends BaseContract {
                 logDecodeDependenciesAbiOnly[key] = logDecodeDependencies[key].compilerOutput.abi;
             }
         }
-        return LibDummyContract.deployAsync(bytecode, abi, provider, txDefaults, logDecodeDependenciesAbiOnly);
+        return LibDummyContract.deployAsync(bytecode, abi, provider, txDefaults, logDecodeDependenciesAbiOnly, );
     }
 
     public static async deployWithLibrariesFrom0xArtifactAsync(
@@ -75,7 +77,7 @@ export class LibDummyContract extends BaseContract {
         libraryArtifacts: { [libraryName: string]: ContractArtifact },
         supportedProvider: SupportedProvider,
         txDefaults: Partial<TxData>,
-        logDecodeDependencies: { [contractName: string]: ContractArtifact | SimpleContractArtifact },
+        logDecodeDependencies: { [contractName: string]: (ContractArtifact | SimpleContractArtifact) },
     ): Promise<LibDummyContract> {
         assert.doesConformToSchema('txDefaults', txDefaults, schemas.txDataSchema, [
             schemas.addressSchema,
@@ -97,10 +99,13 @@ export class LibDummyContract extends BaseContract {
             artifact,
             libraryArtifacts,
             new Web3Wrapper(provider),
-            txDefaults,
+            txDefaults
         );
-        const bytecode = linkLibrariesInBytecode(artifact, libraryAddresses);
-        return LibDummyContract.deployAsync(bytecode, abi, provider, txDefaults, logDecodeDependenciesAbiOnly);
+        const bytecode = linkLibrariesInBytecode(
+            artifact,
+            libraryAddresses,
+        );
+        return LibDummyContract.deployAsync(bytecode, abi, provider, txDefaults, logDecodeDependenciesAbiOnly, );
     }
 
     public static async deployAsync(
@@ -118,7 +123,11 @@ export class LibDummyContract extends BaseContract {
         ]);
         const provider = providerUtils.standardizeOrThrow(supportedProvider);
         const constructorAbi = BaseContract._lookupConstructorAbi(abi);
-        [] = BaseContract._formatABIDataItemList(constructorAbi.inputs, [], BaseContract._bigNumberToString);
+        [] = BaseContract._formatABIDataItemList(
+            constructorAbi.inputs,
+            [],
+            BaseContract._bigNumberToString,
+        );
         const iface = new ethers.utils.Interface(abi);
         const deployInfo = iface.deployFunction;
         const txData = deployInfo.encode(bytecode, []);
@@ -134,12 +143,7 @@ export class LibDummyContract extends BaseContract {
         logUtils.log(`transactionHash: ${txHash}`);
         const txReceipt = await web3Wrapper.awaitTransactionSuccessAsync(txHash);
         logUtils.log(`LibDummy successfully deployed at ${txReceipt.contractAddress}`);
-        const contractInstance = new LibDummyContract(
-            txReceipt.contractAddress as string,
-            provider,
-            txDefaults,
-            logDecodeDependencies,
-        );
+        const contractInstance = new LibDummyContract(txReceipt.contractAddress as string, provider, txDefaults, logDecodeDependencies);
         contractInstance.constructorArgs = [];
         return contractInstance;
     }
@@ -148,7 +152,8 @@ export class LibDummyContract extends BaseContract {
      * @returns      The contract ABI
      */
     public static ABI(): ContractAbi {
-        const abi = [] as ContractAbi;
+        const abi = [
+        ] as ContractAbi;
         return abi;
     }
 
@@ -178,7 +183,10 @@ export class LibDummyContract extends BaseContract {
                         libraryAddresses,
                     );
                     // Deploy this library.
-                    const linkedLibraryBytecode = linkLibrariesInBytecode(libraryArtifact, libraryAddresses);
+                    const linkedLibraryBytecode = linkLibrariesInBytecode(
+                        libraryArtifact,
+                        libraryAddresses,
+                    );
                     const txDataWithDefaults = await BaseContract._applyDefaultsToContractTxDataAsync(
                         {
                             data: linkedLibraryBytecode,
@@ -227,6 +235,9 @@ export class LibDummyContract extends BaseContract {
         return abiEncoder.getSelector();
     }
 
+
+
+
     constructor(
         address: string,
         supportedProvider: SupportedProvider,
@@ -234,17 +245,9 @@ export class LibDummyContract extends BaseContract {
         logDecodeDependencies?: { [contractName: string]: ContractAbi },
         deployedBytecode: string | undefined = LibDummyContract.deployedBytecode,
     ) {
-        super(
-            'LibDummy',
-            LibDummyContract.ABI(),
-            address,
-            supportedProvider,
-            txDefaults,
-            logDecodeDependencies,
-            deployedBytecode,
-        );
+        super('LibDummy', LibDummyContract.ABI(), address, supportedProvider, txDefaults, logDecodeDependencies, deployedBytecode);
         classUtils.bindAll(this, ['_abiEncoderByFunctionSignature', 'address', '_web3Wrapper']);
-        LibDummyContract.ABI().forEach((item, index) => {
+LibDummyContract.ABI().forEach((item, index) => {
             if (item.type === 'function') {
                 const methodAbi = item as MethodAbi;
                 this._methodABIIndex[methodAbi.name] = index;
