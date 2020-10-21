@@ -2,8 +2,6 @@ import { GanacheProvider, JSONRPCRequestPayload } from 'ethereum-types';
 
 import * as Ganache from 'ganache-core';
 
-const toolchain = require('@eth-optimism/ovm-toolchain')
-
 import { Callback, ErrorCallback } from '../types';
 
 import { Subprovider } from './subprovider';

@@ -424,6 +424,6 @@ export class Compiler {
         const artifactString = utils.stringifyWithFormatting(newArtifact);
         const currentArtifactPath = `${this._artifactsDir}/${contractName}.json`;
         await fsWrapper.writeFileAsync(currentArtifactPath, artifactString);
-        logUtils.warn(`${contractName} artifact saved!`);
+        logUtils.warn(`${contractName} artifact saved! to currentArtifactPath ${currentArtifactPath}`);
     }
 }

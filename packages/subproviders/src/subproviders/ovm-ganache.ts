@@ -8,6 +8,10 @@ import { Callback, ErrorCallback } from '../types';
 
 import { Subprovider } from './subprovider';
 
+import debug from 'debug'
+
+const log = debug('ovm-ganache-subprovider')
+
 /**
  * This class implements the [web3-provider-engine](https://github.com/MetaMask/provider-engine) subprovider interface.
  * It intercepts all JSON RPC requests and relays them to an in-process ganache instance.
@@ -33,7 +37,9 @@ export class OVMGanacheSubprovider extends Subprovider {
      */
     // tslint:disable-next-line:prefer-function-over-method async-suffix
     public async handleRequest(payload: JSONRPCRequestPayload, _next: Callback, end: ErrorCallback): Promise<void> {
+        log(`sending request payload to ovm ganache: ${JSON.stringify(payload)}`)
         this._ganacheProvider.sendAsync(payload, (err: Error | null, result: any) => {
+            log(`payload was sent, got result ${JSON.stringify(result).slice(0, 1000)} [possibly truncated], got err ${JSON.stringify(err)}`)
             end(err, result && result.result);
         });
     }
