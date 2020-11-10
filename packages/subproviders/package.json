@@ -42,6 +42,7 @@
         "@eth-optimism/ovm-toolchain": "^0.0.1-alpha.14",
         "@ledgerhq/hw-app-eth": "^4.3.0",
         "@ledgerhq/hw-transport-u2f": "4.24.0",
+        "@types/debug": "^4.1.5",
         "@types/hdkey": "^0.7.0",
         "@types/web3-provider-engine": "^14.0.0",
         "bip39": "^2.5.0",
