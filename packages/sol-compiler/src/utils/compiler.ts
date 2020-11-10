@@ -347,7 +347,6 @@ export async function getSolcJSAsync(solcVersion: string, isOfflineMode: boolean
     }
     const compilerBinFilename = path.join(constants.SOLC_BIN_DIR, fullSolcVersion);
     let solcjs: string;
-    console.log(`solcjs path is ${compilerBinFilename}`)
     if (await fsWrapper.doesFileExistAsync(compilerBinFilename)) {
         solcjs = (await fsWrapper.readFileAsync(compilerBinFilename)).toString();
     } else {

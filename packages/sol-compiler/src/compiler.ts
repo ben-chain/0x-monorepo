@@ -104,7 +104,6 @@ export class Compiler {
      * @return An instance of the Compiler class.
      */
     constructor(opts?: CompilerOptions) {
-        console.log(`newererERERERE custom being run`)
         const passedOpts = opts || {};
         assert.doesConformToSchema('opts', passedOpts, compilerOptionsSchema);
         // TODO: Look for config file in parent directories if not found in current directory

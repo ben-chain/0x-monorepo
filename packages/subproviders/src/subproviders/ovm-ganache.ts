@@ -24,7 +24,6 @@ export class OVMGanacheSubprovider extends Subprovider {
      */
     constructor(opts: Ganache.GanacheOpts) {
         super();
-        console.log(`using ovm toolchain ganache`)
         this._ganacheProvider = toolchain.ganache.provider(opts);
     }
     /**
